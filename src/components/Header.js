@@ -19,6 +19,7 @@ export default function Header() {
           <Link className="hover:opacity-80" href="/eonet">EONET</Link>
           <Link className="hover:opacity-80" href="/epic">EPIC</Link>
           <Link className="hover:opacity-80" href="/exoplanets">Exoplanets</Link>
+          <Link className="hover:opacity-80" href="/worldview">Worldview</Link>
           <Link className="hover:opacity-80" href="/about">About</Link>
         </nav>
         <div className="flex items-center gap-3">
