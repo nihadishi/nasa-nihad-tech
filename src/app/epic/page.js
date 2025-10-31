@@ -115,27 +115,30 @@ export default function EpicPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0] dark:bg-black text-black dark:text-white">
+    <div className="min-h-screen bg-[#F5F5F0] dark:bg-[#1a1a1a] text-black dark:text-white">
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <h1 className="text-5xl font-bold text-center mb-10 text-gray-900 dark:text-white">
-          NASA EPIC
-        </h1>
-        <p className="text-center text-lg text-gray-700 dark:text-gray-300 mb-12 max-w-3xl mx-auto">
-          Earth Polychromatic Imaging Camera provides daily full disc imagery of Earth from the DSCOVR satellite, 
-          uniquely positioned at the Earth-Sun Lagrange point.
-        </p>
+        <div className="mb-12 border-b-4 border-black dark:border-white pb-16">
+          <p className="text-xs font-bold uppercase tracking-widest mb-3 text-center">Earth Observation</p>
+          <h1 className="text-5xl md:text-6xl font-bold text-center mb-6 uppercase tracking-tight">
+            NASA EPIC
+          </h1>
+          <p className="text-center max-w-3xl mx-auto leading-relaxed">
+            Earth Polychromatic Imaging Camera provides daily full disc imagery of Earth from the DSCOVR satellite, 
+            uniquely positioned at the Earth-Sun Lagrange point.
+          </p>
+        </div>
 
-        <div className="bg-white dark:bg-[#333333] p-6 rounded-lg shadow-lg mb-8">
+        <div className="border-4 border-black dark:border-white bg-white dark:bg-black p-6 mb-8">
           <div className="mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Collection & Date</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <h2 className="text-xl font-bold uppercase tracking-wider">Collection & Date</h2>
+            <p className="text-sm font-medium mt-1 text-black/60 dark:text-white/60">
               {images.length} image{images.length !== 1 ? 's' : ''} available
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
+              <label className="block text-xs font-bold mb-3 uppercase tracking-wider">
                 Collection Type
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -146,16 +149,16 @@ export default function EpicPage() {
                       setCollection(coll.id);
                       setSelectedDate('');
                     }}
-                    className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                    className={`relative border-4 border-black dark:border-white px-4 py-3 text-sm font-bold transition-all duration-300 flex items-center gap-2 ${
                       collection === coll.id
-                        ? 'bg-black dark:bg-white text-white dark:text-black'
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                        ? 'bg-black text-white dark:bg-white dark:text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] -translate-y-0.5 -translate-x-0.5'
+                        : 'bg-white text-black dark:bg-black dark:text-white hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-0.5 hover:-translate-x-0.5'
                     }`}
                   >
                     <span>{coll.icon}</span>
                     <span className="text-left">
-                      <div className="font-semibold">{coll.name}</div>
-                      <div className="text-xs opacity-70">{coll.description}</div>
+                      <div className="font-bold uppercase text-xs">{coll.name}</div>
+                      <div className="text-[10px] opacity-70 uppercase">{coll.description}</div>
                     </span>
                   </button>
                 ))}
@@ -163,13 +166,13 @@ export default function EpicPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
+              <label className="block text-xs font-bold mb-3 uppercase tracking-wider">
                 Select Date
               </label>
               <select
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white font-medium mb-2"
+                className="w-full p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white font-bold uppercase text-sm mb-2"
               >
                 <option value="">Most Recent</option>
                 {availableDates.map((date) => (
@@ -182,7 +185,7 @@ export default function EpicPage() {
                   </option>
                 ))}
               </select>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
+              <p className="text-xs font-medium text-black/60 dark:text-white/60">
                 Showing last 30 available dates
               </p>
             </div>
@@ -191,21 +194,21 @@ export default function EpicPage() {
 
 
         {error && (
-          <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-8">
-            <strong>Error:</strong> {error}
+          <div className="border-4 border-red-600 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 px-6 py-4 mb-8">
+            <strong className="font-bold uppercase tracking-wider">Error:</strong> {error}
           </div>
         )}
 
         {loading ? (
           <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-gray-100"></div>
-            <p className="mt-4 text-gray-600 dark:text-gray-400">Loading Earth imagery...</p>
+            <div className="inline-block animate-spin h-12 w-12 border-4 border-black dark:border-white border-t-transparent"></div>
+            <p className="mt-4 font-bold uppercase tracking-wider text-sm">Loading Earth imagery...</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               {selectedImage && (
-                <div className="bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+                <div className="border-4 border-black dark:border-white bg-white dark:bg-black overflow-hidden">
                   <div className="relative aspect-square bg-black">
                     <img
                       src={getImageUrl(selectedImage, 'png')}
@@ -215,67 +218,67 @@ export default function EpicPage() {
                   </div>
                   
                   <div className="p-6">
-                    <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
+                    <h2 className="text-2xl font-bold mb-2 uppercase tracking-tight">
                       {selectedImage.caption || 'Earth Full Disc'}
                     </h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                    <p className="text-sm font-medium text-black/60 dark:text-white/60 mb-4">
                       {formatDate(selectedImage.date)}
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                       <div>
-                        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
+                        <h3 className="text-xs font-bold mb-2 uppercase tracking-wider">
                           Centroid Coordinates
                         </h3>
                         <div className="space-y-1 text-sm">
-                          <p><span className="text-gray-500 dark:text-gray-400">Latitude:</span> {formatCoordinates(selectedImage.centroid_coordinates?.lat)}</p>
-                          <p><span className="text-gray-500 dark:text-gray-400">Longitude:</span> {formatCoordinates(selectedImage.centroid_coordinates?.lon)}</p>
+                          <p><span className="font-bold">Latitude:</span> {formatCoordinates(selectedImage.centroid_coordinates?.lat)}</p>
+                          <p><span className="font-bold">Longitude:</span> {formatCoordinates(selectedImage.centroid_coordinates?.lon)}</p>
                         </div>
                       </div>
 
                       <div>
-                        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
+                        <h3 className="text-xs font-bold mb-2 uppercase tracking-wider">
                           Attitude Quaternions
                         </h3>
                         <div className="space-y-1 text-sm">
-                          <p><span className="text-gray-500 dark:text-gray-400">Q0:</span> {selectedImage.attitude_quaternions?.q0?.toFixed(6) || 'N/A'}</p>
-                          <p><span className="text-gray-500 dark:text-gray-400">Q1:</span> {selectedImage.attitude_quaternions?.q1?.toFixed(6) || 'N/A'}</p>
-                          <p><span className="text-gray-500 dark:text-gray-400">Q2:</span> {selectedImage.attitude_quaternions?.q2?.toFixed(6) || 'N/A'}</p>
-                          <p><span className="text-gray-500 dark:text-gray-400">Q3:</span> {selectedImage.attitude_quaternions?.q3?.toFixed(6) || 'N/A'}</p>
+                          <p><span className="font-bold">Q0:</span> {selectedImage.attitude_quaternions?.q0?.toFixed(6) || 'N/A'}</p>
+                          <p><span className="font-bold">Q1:</span> {selectedImage.attitude_quaternions?.q1?.toFixed(6) || 'N/A'}</p>
+                          <p><span className="font-bold">Q2:</span> {selectedImage.attitude_quaternions?.q2?.toFixed(6) || 'N/A'}</p>
+                          <p><span className="font-bold">Q3:</span> {selectedImage.attitude_quaternions?.q3?.toFixed(6) || 'N/A'}</p>
                         </div>
                       </div>
                     </div>
 
                     <div className="space-y-4">
-                      <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-800">
-                        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
+                      <div className="p-4 border-2 border-black dark:border-white bg-white dark:bg-black">
+                        <h3 className="text-xs font-bold mb-2 uppercase tracking-wider">
                           🛰️ DSCOVR Position (J2000)
                         </h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{formatPosition(selectedImage.dscovr_j2000_position)}</p>
+                        <p className="text-sm font-mono">{formatPosition(selectedImage.dscovr_j2000_position)}</p>
                       </div>
 
-                      <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-800">
-                        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
+                      <div className="p-4 border-2 border-black dark:border-white bg-white dark:bg-black">
+                        <h3 className="text-xs font-bold mb-2 uppercase tracking-wider">
                           🌙 Lunar Position (J2000)
                         </h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{formatPosition(selectedImage.lunar_j2000_position)}</p>
+                        <p className="text-sm font-mono">{formatPosition(selectedImage.lunar_j2000_position)}</p>
                       </div>
 
-                      <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-800">
-                        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
+                      <div className="p-4 border-2 border-black dark:border-white bg-white dark:bg-black">
+                        <h3 className="text-xs font-bold mb-2 uppercase tracking-wider">
                           ☀️ Sun Position (J2000)
                         </h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{formatPosition(selectedImage.sun_j2000_position)}</p>
+                        <p className="text-sm font-mono">{formatPosition(selectedImage.sun_j2000_position)}</p>
                       </div>
                     </div>
 
-                    <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <div className="mt-6 pt-4 border-t-2 border-black dark:border-white">
                       <div className="flex gap-3">
                         <a
                           href={getImageUrl(selectedImage, 'png')}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
+                          className="inline-flex items-center gap-1 border-2 border-black dark:border-white bg-white dark:bg-black px-4 py-2 text-xs font-bold uppercase hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
                         >
                           Download PNG
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -286,7 +289,7 @@ export default function EpicPage() {
                           href={getImageUrl(selectedImage, 'jpg')}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
+                          className="inline-flex items-center gap-1 border-2 border-black dark:border-white bg-white dark:bg-black px-4 py-2 text-xs font-bold uppercase hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
                         >
                           Download JPG
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -301,8 +304,8 @@ export default function EpicPage() {
             </div>
 
             <div className="lg:col-span-1">
-              <div className="bg-white dark:bg-[#333333] p-4 rounded-lg shadow-lg sticky top-4">
-                <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+              <div className="border-4 border-black dark:border-white bg-white dark:bg-black p-4 sticky top-4">
+                <h3 className="text-lg font-bold mb-4 uppercase tracking-wider">
                   Image Timeline
                 </h3>
                 <div className="space-y-2 max-h-[calc(100vh-200px)] overflow-y-auto">
@@ -310,26 +313,26 @@ export default function EpicPage() {
                     <button
                       key={index}
                       onClick={() => setSelectedImage(img)}
-                      className={`w-full text-left p-3 rounded-lg transition-colors ${
+                      className={`w-full text-left p-3 border-2 border-black dark:border-white transition-all duration-300 ${
                         selectedImage?.image === img.image
-                          ? 'bg-black dark:bg-white text-white dark:text-black'
-                          : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                          ? 'bg-black text-white dark:bg-white dark:text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] -translate-y-0.5 -translate-x-0.5'
+                          : 'bg-white text-black dark:bg-black dark:text-white hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-0.5 hover:-translate-x-0.5'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <img
                           src={getImageUrl(img, 'thumbs')}
                           alt={`Thumbnail ${index + 1}`}
-                          className="w-16 h-16 rounded object-cover"
+                          className="w-16 h-16 object-cover border-2 border-black dark:border-white"
                         />
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate">
+                          <p className="text-sm font-bold truncate">
                             {new Date(img.date).toLocaleTimeString('en-US', {
                               hour: '2-digit',
                               minute: '2-digit'
                             })}
                           </p>
-                          <p className="text-xs opacity-70 truncate">
+                          <p className="text-xs font-medium opacity-70 truncate">
                             {img.centroid_coordinates?.lat?.toFixed(2)}°, {img.centroid_coordinates?.lon?.toFixed(2)}°
                           </p>
                         </div>
@@ -343,8 +346,8 @@ export default function EpicPage() {
         )}
 
         {!loading && images.length === 0 && (
-          <div className="text-center py-12 bg-white dark:bg-[#333333] rounded-lg">
-            <p className="text-gray-500 dark:text-gray-400 text-lg">
+          <div className="text-center py-12 border-4 border-black dark:border-white bg-white dark:bg-black">
+            <p className="font-bold uppercase tracking-wider text-sm">
               No images available for the selected date and collection.
             </p>
           </div>

@@ -15,7 +15,7 @@ export default function WorldviewMap({ selectedDate, activeLayers }) {
       center: [20, 0],
       zoom: 3,
       minZoom: 1,
-      maxZoom: 9,
+      maxZoom: 18,
       worldCopyJump: true,
       zoomControl: true,
       preferCanvas: false,
@@ -74,39 +74,39 @@ export default function WorldviewMap({ selectedDate, activeLayers }) {
       },
       'VIIRS_SNPP_CorrectedReflectance_TrueColor': {
         url: `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_SNPP_CorrectedReflectance_TrueColor/default/${dateStr}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`,
-        options: { tileSize: 256, maxZoom: 9, crossOrigin: true, className: 'crisp-tiles' },
+        options: { tileSize: 256, maxZoom: 18, maxNativeZoom: 9, crossOrigin: true, className: 'crisp-tiles' },
       },
       'MODIS_Terra_CorrectedReflectance_TrueColor': {
         url: `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/${dateStr}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`,
-        options: { tileSize: 256, maxZoom: 9, crossOrigin: true, className: 'crisp-tiles' },
+        options: { tileSize: 256, maxZoom: 18, maxNativeZoom: 9, crossOrigin: true, className: 'crisp-tiles' },
       },
       'MODIS_Aqua_CorrectedReflectance_TrueColor': {
         url: `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Aqua_CorrectedReflectance_TrueColor/default/${dateStr}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`,
-        options: { tileSize: 256, maxZoom: 9, crossOrigin: true, className: 'crisp-tiles' },
+        options: { tileSize: 256, maxZoom: 18, maxNativeZoom: 9, crossOrigin: true, className: 'crisp-tiles' },
       },
       'VIIRS_NOAA20_CorrectedReflectance_TrueColor': {
         url: `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_NOAA20_CorrectedReflectance_TrueColor/default/${dateStr}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`,
-        options: { tileSize: 256, maxZoom: 9, crossOrigin: true, className: 'crisp-tiles' },
+        options: { tileSize: 256, maxZoom: 18, maxNativeZoom: 9, crossOrigin: true, className: 'crisp-tiles' },
       },
       'VIIRS_SNPP_CorrectedReflectance_BandsM11-I2-I1': {
         url: `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_SNPP_CorrectedReflectance_BandsM11-I2-I1/default/${dateStr}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`,
-        options: { tileSize: 256, maxZoom: 9, crossOrigin: true, className: 'crisp-tiles' },
+        options: { tileSize: 256, maxZoom: 18, maxNativeZoom: 9, crossOrigin: true, className: 'crisp-tiles' },
       },
       'BlueMarble_NextGeneration': {
         url: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/BlueMarble_NextGeneration/default//GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg',
-        options: { tileSize: 256, maxZoom: 8, crossOrigin: true, className: 'crisp-tiles' },
+        options: { tileSize: 256, maxZoom: 18, maxNativeZoom: 8, crossOrigin: true, className: 'crisp-tiles' },
       },
       'Reference_Features': {
         url: `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/Reference_Features_15m/default/${dateStr}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.png`,
-        options: { tileSize: 256, maxZoom: 9, opacity: 0.8, crossOrigin: true },
+        options: { tileSize: 256, maxZoom: 18, maxNativeZoom: 9, opacity: 0.8, crossOrigin: true },
       },
       'Reference_Labels': {
         url: `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/Reference_Labels_15m/default/${dateStr}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.png`,
-        options: { tileSize: 256, maxZoom: 9, opacity: 0.9, crossOrigin: true },
+        options: { tileSize: 256, maxZoom: 18, maxNativeZoom: 9, opacity: 0.9, crossOrigin: true },
       },
       'Coastlines': {
         url: `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/Coastlines_15m/default/${dateStr}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.png`,
-        options: { tileSize: 256, maxZoom: 9, opacity: 0.7, crossOrigin: true },
+        options: { tileSize: 256, maxZoom: 18, maxNativeZoom: 9, opacity: 0.7, crossOrigin: true },
       },
     };
 

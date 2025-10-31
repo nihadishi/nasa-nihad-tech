@@ -6,8 +6,8 @@ import dynamic from "next/dynamic";
 const AsteroidOrbit3D = dynamic(() => import("@/components/AsteroidOrbit3D"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-[500px] w-full items-center justify-center rounded-2xl border border-zinc-200 bg-black dark:border-zinc-800">
-      <div className="text-sm text-white">Loading 3D visualization...</div>
+    <div className="flex h-[500px] w-full items-center justify-center border-4 border-black dark:border-white bg-zinc-900">
+      <div className="text-sm font-bold uppercase tracking-wider text-white">Loading 3D...</div>
     </div>
   ),
 });
@@ -120,12 +120,12 @@ export default function AsteroidsPage() {
   };
 
   return (
-    <main className="min-h-[70vh] bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
-      <section className="border-b border-zinc-200/70 py-16 dark:border-zinc-800">
+    <main className="min-h-screen bg-white text-black dark:bg-black dark:text-white">
+      <section className="border-b-4 border-black dark:border-white py-16">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="text-[11px] uppercase tracking-widest text-zinc-500 dark:text-zinc-400">NASA NeoWs API</div>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl">Near Earth Object Web Service</h1>
-          <p className="mt-3 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">Real-time data on asteroids and their closest approach dates to Earth from NASA JPL.</p>
+          <div className="text-xs font-bold uppercase tracking-widest mb-3">NASA NeoWs API</div>
+          <h1 className="text-5xl font-bold uppercase tracking-tight md:text-6xl">Near Earth Objects</h1>
+          <p className="mt-6 max-w-2xl text-lg font-medium">Real-time data on asteroids and their closest approach dates to Earth from NASA JPL.</p>
         </div>
       </section>
 
@@ -134,40 +134,40 @@ export default function AsteroidsPage() {
           <div className="mb-8 flex flex-wrap gap-3">
             <button
               onClick={() => setView("feed")}
-              className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+              className={`relative border-4 border-black dark:border-white px-6 py-3 text-sm font-bold uppercase tracking-wider overflow-hidden transition-all duration-300 ${
                 view === "feed"
-                  ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black"
-                  : "border border-zinc-300 text-zinc-900 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-900"
+                  ? "bg-black text-white dark:bg-white dark:text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] -translate-y-1 -translate-x-1"
+                  : "bg-white text-black dark:bg-black dark:text-white hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-0.5 hover:-translate-x-0.5"
               }`}
             >
-              Asteroid Feed
+              Feed
             </button>
             <button
               onClick={() => setView("lookup")}
-              className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+              className={`relative border-4 border-black dark:border-white px-6 py-3 text-sm font-bold uppercase tracking-wider overflow-hidden transition-all duration-300 ${
                 view === "lookup"
-                  ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black"
-                  : "border border-zinc-300 text-zinc-900 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-900"
+                  ? "bg-black text-white dark:bg-white dark:text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] -translate-y-1 -translate-x-1"
+                  : "bg-white text-black dark:bg-black dark:text-white hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-0.5 hover:-translate-x-0.5"
               }`}
             >
-              Lookup Asteroid
+              Lookup
             </button>
             <button
               onClick={() => setView("browse")}
-              className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+              className={`relative border-4 border-black dark:border-white px-6 py-3 text-sm font-bold uppercase tracking-wider overflow-hidden transition-all duration-300 ${
                 view === "browse"
-                  ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black"
-                  : "border border-zinc-300 text-zinc-900 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-900"
+                  ? "bg-black text-white dark:bg-white dark:text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] -translate-y-1 -translate-x-1"
+                  : "bg-white text-black dark:bg-black dark:text-white hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-0.5 hover:-translate-x-0.5"
               }`}
             >
-              Browse All
+              Browse
             </button>
           </div>
 
           {view === "feed" && (
             <div>
-              <div className="mb-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-black">
-                <h3 className="mb-4 text-lg font-semibold">Search by Date Range</h3>
+              <div className="mb-6 border-4 border-black dark:border-white bg-white dark:bg-black p-8">
+                <h3 className="mb-6 text-2xl font-bold uppercase tracking-wider">Search by Date Range</h3>
                 <p className="mb-4 text-xs text-zinc-600 dark:text-zinc-400">Maximum 7 days range allowed</p>
                 <div className="flex flex-wrap gap-4">
                   <div className="flex-1 min-w-[200px]">
@@ -216,9 +216,13 @@ export default function AsteroidsPage() {
                     <button
                       onClick={fetchFeed}
                       disabled={loading}
-                      className="rounded-lg bg-zinc-900 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-800 disabled:opacity-50 dark:bg-zinc-100 dark:text-black dark:hover:bg-zinc-200"
+                      className="relative border-4 border-black dark:border-white bg-black dark:bg-white text-white dark:text-black px-8 py-3 text-sm font-bold uppercase tracking-wider overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-1 hover:-translate-x-1 active:shadow-none active:translate-y-0 active:translate-x-0"
                     >
-                      {loading ? "Loading..." : "Search"}
+                      <span className="relative z-10">{loading ? "Loading..." : "Search"}</span>
+                      {/* <div className="absolute inset-0 bg-white dark:bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div> */}
+                      <span className="absolute inset-0 flex items-center justify-center text-black dark:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-bold">
+                        {loading ? "Loading..." : "Search"}
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -240,7 +244,7 @@ export default function AsteroidsPage() {
                         return (
                           <div
                             key={asteroid.id}
-                            className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:border-zinc-400 dark:border-zinc-800 dark:bg-black dark:hover:border-zinc-600"
+                            className="border-4 border-black dark:border-white bg-white dark:bg-black p-6 transition-all hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-1 hover:-translate-x-1 cursor-pointer"
                           >
                             <div className="mb-4 flex items-start justify-between gap-3">
                               <div>
@@ -365,8 +369,8 @@ export default function AsteroidsPage() {
 
           {view === "lookup" && (
             <div>
-              <div className="mb-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-black">
-                <h3 className="mb-4 text-lg font-semibold">Lookup by SPK-ID</h3>
+              <div className="mb-6 border-4 border-black dark:border-white bg-white dark:bg-black p-8">
+                <h3 className="mb-6 text-2xl font-bold uppercase tracking-wider">Lookup by SPK-ID</h3>
                 <div className="flex flex-wrap gap-4">
                   <div className="flex-1 min-w-[250px]">
                     <label className="mb-1.5 block text-xs text-zinc-600 dark:text-zinc-400">Asteroid SPK-ID</label>
@@ -382,9 +386,13 @@ export default function AsteroidsPage() {
                     <button
                       onClick={fetchLookup}
                       disabled={loading}
-                      className="rounded-lg bg-zinc-900 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-800 disabled:opacity-50 dark:bg-zinc-100 dark:text-black dark:hover:bg-zinc-200"
+                      className="relative border-4 border-black dark:border-white bg-black dark:bg-white text-white dark:text-black px-8 py-3 text-sm font-bold uppercase tracking-wider overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-1 hover:-translate-x-1 active:shadow-none active:translate-y-0 active:translate-x-0"
                     >
-                      {loading ? "Loading..." : "Lookup"}
+                      <span className="relative z-10">{loading ? "Loading..." : "Lookup"}</span>
+                      <div className="absolute inset-0 bg-white dark:bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+                      <span className="absolute inset-0 flex items-center justify-center text-black dark:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-bold">
+                        {loading ? "Loading..." : "Lookup"}
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -392,9 +400,9 @@ export default function AsteroidsPage() {
 
               {lookupData && (
                 <div className="space-y-6">
-                  <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-black">
-                    <h3 className="mb-4 text-xl font-semibold">3D Orbital Visualization</h3>
-                    <Suspense fallback={<div className="flex h-[500px] w-full items-center justify-center rounded-2xl border border-zinc-200 bg-black dark:border-zinc-800"><div className="text-sm text-white">Loading 3D model...</div></div>}>
+                  <div className="border-4 border-black dark:border-white bg-white dark:bg-black p-6">
+                    <h3 className="mb-6 text-2xl font-bold uppercase tracking-wider">3D Orbital Visualization</h3>
+                    <Suspense fallback={<div className="flex h-[500px] w-full items-center justify-center border-4 border-black dark:border-white bg-zinc-900"><div className="text-sm font-bold uppercase tracking-wider text-white">Loading 3D model...</div></div>}>
                       <AsteroidOrbit3D 
                         orbitalData={lookupData.orbital_data} 
                         asteroidName={lookupData.name}
@@ -414,7 +422,7 @@ export default function AsteroidsPage() {
                   </div>
 
                   {showDetails && (
-                    <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-black">
+                    <div className="border-4 border-black dark:border-white bg-white dark:bg-black p-6">
                       <div className="mb-6 flex items-start justify-between">
                         <div>
                           <h3 className="text-2xl font-semibold">{lookupData.name}</h3>
@@ -592,28 +600,36 @@ export default function AsteroidsPage() {
                     </div>
                   )}
 
-                  <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-black">
+                  <div className="border-4 border-black dark:border-white bg-zinc-100 dark:bg-zinc-900 p-6">
                     <div className="flex gap-3">
                       <a
                         href={lookupData.nasa_jpl_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="rounded-lg bg-zinc-900 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-black dark:hover:bg-zinc-200"
+                        className="relative inline-flex items-center justify-center border-4 border-black dark:border-white bg-black dark:bg-white text-white dark:text-black px-6 py-3 text-sm font-bold uppercase tracking-wider overflow-hidden group transition-all duration-300 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-1 hover:-translate-x-1 active:shadow-none active:translate-y-0 active:translate-x-0"
                       >
-                        View on JPL
+                        <span className="relative z-10">View on JPL</span>
+                        <div className="absolute inset-0 bg-white dark:bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+                        <span className="absolute inset-0 flex items-center justify-center text-black dark:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-bold">
+                          View on JPL
+                        </span>
                       </a>
                       <button
                         onClick={() => setShowDetails(!showDetails)}
-                        className="rounded-lg border border-zinc-300 px-5 py-2 text-sm font-medium transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900"
+                        className="relative border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white px-6 py-3 text-sm font-bold uppercase tracking-wider overflow-hidden group transition-all duration-300 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-0.5 hover:-translate-x-0.5"
                       >
-                        {showDetails ? "Hide Details" : "Show Details"}
+                        <span className="relative z-10">{showDetails ? "Hide" : "Show"} Details</span>
+                        <div className="absolute inset-0 bg-black dark:bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+                        <span className="absolute inset-0 flex items-center justify-center text-white dark:text-black opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-bold">
+                          {showDetails ? "Hide" : "Show"} Details
+                        </span>
                       </button>
                     </div>
                   </div>
 
                   {showDetails && lookupData.close_approach_data && lookupData.close_approach_data.length > 0 && (
-                    <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-black">
-                      <h4 className="mb-4 text-lg font-semibold">All Close Approaches ({lookupData.close_approach_data.length})</h4>
+                    <div className="border-4 border-black dark:border-white bg-white dark:bg-black p-6">
+                      <h4 className="mb-6 text-2xl font-bold uppercase tracking-wider">All Close Approaches ({lookupData.close_approach_data.length})</h4>
                       <div className="space-y-3">
                         {lookupData.close_approach_data.map((approach, index) => (
                           <div key={index} className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
@@ -681,7 +697,7 @@ export default function AsteroidsPage() {
                       return (
                         <div
                           key={asteroid.id}
-                          className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:border-zinc-400 dark:border-zinc-800 dark:bg-black dark:hover:border-zinc-600"
+                          className="border-4 border-black dark:border-white bg-white dark:bg-black p-6 transition-all hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-1 hover:-translate-x-1 cursor-pointer"
                         >
                           <div className="mb-4 flex items-start justify-between gap-3">
                             <div>

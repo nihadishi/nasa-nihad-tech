@@ -63,14 +63,15 @@ export default function DonkiPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0] dark:bg-black text-black dark:text-white">
+    <div className="min-h-screen bg-[#F5F5F0] dark:bg-[#1a1a1a] text-black dark:text-white">
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="mb-12">
-          <h1 className="text-5xl font-light mb-4">DONKI</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+        <div className="mb-12 border-b-4 border-black dark:border-white pb-16">
+          <p className="text-xs font-bold uppercase tracking-widest mb-3">Space Weather</p>
+          <h1 className="text-5xl md:text-6xl font-bold uppercase tracking-tight mb-4">DONKI</h1>
+          <p className="text-sm font-medium uppercase tracking-wider text-black/60 dark:text-white/60">
             Space Weather Database Of Notifications, Knowledge, Information
           </p>
-          <p className="mt-4 text-gray-700 dark:text-gray-300 leading-relaxed">
+          <p className="mt-6 leading-relaxed max-w-4xl">
             DONKI is a comprehensive on-line tool for space weather forecasters, scientists, 
             and the general space science community. It chronicles daily interpretations of 
             space weather observations, analysis, models, forecasts, and notifications.

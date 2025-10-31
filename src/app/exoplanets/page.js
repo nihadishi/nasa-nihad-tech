@@ -151,50 +151,56 @@ export default function ExoplanetsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0] dark:bg-black text-black dark:text-white">
+    <div className="min-h-screen bg-[#F5F5F0] dark:bg-[#1a1a1a] text-black dark:text-white">
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <h1 className="text-5xl font-bold text-center mb-10 text-gray-900 dark:text-white">
-          NASA Exoplanet Archive
-        </h1>
-        <p className="text-center text-lg text-gray-700 dark:text-gray-300 mb-12 max-w-3xl mx-auto">
-          Explore thousands of confirmed exoplanets discovered by missions like Kepler, TESS, and more. 
-          Filter by discovery method, size, temperature, and other characteristics.
-        </p>
+        <div className="mb-12 border-b-4 border-black dark:border-white pb-16">
+          <p className="text-xs font-bold uppercase tracking-widest mb-3 text-center">Planetary Science</p>
+          <h1 className="text-5xl md:text-6xl font-bold text-center mb-6 uppercase tracking-tight">
+            NASA Exoplanet Archive
+          </h1>
+          <p className="text-center max-w-3xl mx-auto leading-relaxed">
+            Explore thousands of confirmed exoplanets discovered by missions like Kepler, TESS, and more. 
+            Filter by discovery method, size, temperature, and other characteristics.
+          </p>
+        </div>
 
-        <div className="bg-white dark:bg-[#333333] p-6 rounded-lg shadow-lg mb-8">
+        <div className="border-4 border-black dark:border-white bg-white dark:bg-black p-6 mb-8">
           <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between mb-6">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Filters</h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              <h2 className="text-xl font-bold uppercase tracking-wider">Filters</h2>
+              <p className="text-sm font-medium mt-1 text-black/60 dark:text-white/60">
                 {planets.length} planet{planets.length !== 1 ? 's' : ''} found
               </p>
             </div>
             <div className="flex gap-2">
               <button
                 onClick={() => setShow3D(!show3D)}
-                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
+                className="relative border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white px-4 py-2 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-0.5 hover:-translate-x-0.5"
               >
-                {show3D ? 'Hide' : 'Show'} 3D View
+                {show3D ? 'Hide' : 'Show'} 3D
               </button>
               <button
                 onClick={fetchPlanets}
                 disabled={loading}
-                className="px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors disabled:opacity-50 font-medium"
+                className="relative border-4 border-black dark:border-white bg-black dark:bg-white text-white dark:text-black px-6 py-2 text-sm font-bold uppercase tracking-wider overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-1 hover:-translate-x-1 active:shadow-none active:translate-y-0 active:translate-x-0"
               >
-                {loading ? 'Loading...' : 'Apply Filters'}
+                <span className="relative z-10">{loading ? 'Loading...' : 'Apply'}</span>
+                <span className="absolute inset-0 flex items-center justify-center text-black dark:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-bold">
+                  {loading ? 'Loading...' : 'Apply'}
+                </span>
               </button>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
+              <label className="block text-xs font-bold mb-2 uppercase tracking-wider">
                 Discovery Method
               </label>
               <select
                 value={discoveryMethod}
                 onChange={(e) => setDiscoveryMethod(e.target.value)}
-                className="w-full p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white font-medium"
+                className="w-full p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white font-bold uppercase text-sm"
               >
                 {discoveryMethods.map((method) => (
                   <option key={method.id} value={method.id}>{method.name}</option>
@@ -203,13 +209,13 @@ export default function ExoplanetsPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
+              <label className="block text-xs font-bold mb-2 uppercase tracking-wider">
                 Discovery Facility
               </label>
               <select
                 value={discoveryFacility}
                 onChange={(e) => setDiscoveryFacility(e.target.value)}
-                className="w-full p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white font-medium"
+                className="w-full p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white font-bold uppercase text-sm"
               >
                 {facilities.map((facility) => (
                   <option key={facility.id} value={facility.id}>{facility.name}</option>
@@ -218,13 +224,13 @@ export default function ExoplanetsPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
+              <label className="block text-xs font-bold mb-2 uppercase tracking-wider">
                 Transit Status
               </label>
               <select
                 value={transitFlag}
                 onChange={(e) => setTransitFlag(e.target.value)}
-                className="w-full p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white font-medium"
+                className="w-full p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white font-bold uppercase text-sm"
               >
                 <option value="all">All Planets</option>
                 <option value="1">Transiting Only</option>
@@ -233,7 +239,7 @@ export default function ExoplanetsPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
+              <label className="block text-xs font-bold mb-2 uppercase tracking-wider">
                 Planet Radius (Earth Radii)
               </label>
               <div className="flex gap-2">
@@ -242,20 +248,20 @@ export default function ExoplanetsPage() {
                   placeholder="Min"
                   value={minRadius}
                   onChange={(e) => setMinRadius(e.target.value)}
-                  className="w-1/2 p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white"
+                  className="w-1/2 p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white font-bold"
                 />
                 <input
                   type="number"
                   placeholder="Max"
                   value={maxRadius}
                   onChange={(e) => setMaxRadius(e.target.value)}
-                  className="w-1/2 p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white"
+                  className="w-1/2 p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white font-bold"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
+              <label className="block text-xs font-bold mb-2 uppercase tracking-wider">
                 Planet Mass (Earth Masses)
               </label>
               <div className="flex gap-2">
@@ -264,20 +270,20 @@ export default function ExoplanetsPage() {
                   placeholder="Min"
                   value={minMass}
                   onChange={(e) => setMinMass(e.target.value)}
-                  className="w-1/2 p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white"
+                  className="w-1/2 p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white font-bold"
                 />
                 <input
                   type="number"
                   placeholder="Max"
                   value={maxMass}
                   onChange={(e) => setMaxMass(e.target.value)}
-                  className="w-1/2 p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white"
+                  className="w-1/2 p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white font-bold"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
+              <label className="block text-xs font-bold mb-2 uppercase tracking-wider">
                 Equilibrium Temp (K)
               </label>
               <div className="flex gap-2">
@@ -286,26 +292,26 @@ export default function ExoplanetsPage() {
                   placeholder="Min"
                   value={minTemp}
                   onChange={(e) => setMinTemp(e.target.value)}
-                  className="w-1/2 p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white"
+                  className="w-1/2 p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white font-bold"
                 />
                 <input
                   type="number"
                   placeholder="Max"
                   value={maxTemp}
                   onChange={(e) => setMaxTemp(e.target.value)}
-                  className="w-1/2 p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white"
+                  className="w-1/2 p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white font-bold"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
+              <label className="block text-xs font-bold mb-2 uppercase tracking-wider">
                 Results Limit
               </label>
               <select
                 value={limit}
                 onChange={(e) => setLimit(e.target.value)}
-                className="w-full p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white font-medium"
+                className="w-full p-2.5 border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white font-bold uppercase text-sm"
               >
                 <option value="50">50 planets</option>
                 <option value="100">100 planets</option>
@@ -323,15 +329,15 @@ export default function ExoplanetsPage() {
         )}
 
         {error && (
-          <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-8">
-            <strong>Error:</strong> {error}
+          <div className="border-4 border-red-600 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 px-6 py-4 mb-8">
+            <strong className="font-bold uppercase tracking-wider">Error:</strong> {error}
           </div>
         )}
 
         {loading ? (
           <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-gray-100"></div>
-            <p className="mt-4 text-gray-600 dark:text-gray-400">Querying exoplanet database...</p>
+            <div className="inline-block animate-spin h-12 w-12 border-4 border-black dark:border-white border-t-transparent"></div>
+            <p className="mt-4 font-bold uppercase tracking-wider text-sm">Querying exoplanet database...</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6">
@@ -339,24 +345,24 @@ export default function ExoplanetsPage() {
               <div
                 key={index}
                 onClick={() => setSelectedPlanet(planet)}
-                className={`bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border-l-4 ${getPlanetColor(planet.pl_rade)} ${selectedPlanet === planet ? 'ring-2 ring-blue-500' : ''}`}
+                className={`border-4 border-black dark:border-white bg-white dark:bg-black transition-all duration-300 cursor-pointer hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-1 hover:-translate-x-1 ${selectedPlanet === planet ? 'shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] -translate-y-1 -translate-x-1' : ''}`}
               >
                 <div className="p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                      <h3 className="text-2xl font-bold uppercase tracking-tight mb-1">
                         {planet.pl_name}
                       </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm font-medium text-black/60 dark:text-white/60">
                         Orbiting {planet.hostname}
                       </p>
                     </div>
                     <div className="flex flex-col gap-2">
-                      <span className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700">
+                      <span className="px-3 py-1.5 border-2 border-black dark:border-white bg-white dark:bg-black text-xs font-bold uppercase">
                         {getPlanetType(planet.pl_rade)}
                       </span>
                       {planet.tran_flag === 1 && (
-                        <span className="px-3 py-1.5 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-lg text-xs font-medium border border-green-200 dark:border-green-800">
+                        <span className="px-3 py-1.5 border-2 border-green-600 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-bold uppercase">
                           Transiting
                         </span>
                       )}
