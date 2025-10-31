@@ -16,8 +16,10 @@ export default function Header() {
     { href: "/eonet", label: "EONET" },
     { href: "/epic", label: "EPIC" },
     { href: "/exoplanets", label: "Exoplanets" },
+    { href: "/iss", label: "ISS" },
     { href: "/worldview", label: "Worldview" },
-    { href: "/mars-weather", label: "Mars" },
+    { href: "/mars-weather", label: "Mars Weather" },
+    // { href: "/mars-rover", label: "Mars Rover" },
     { href: "/nasa-images", label: "Media" },
     { href: "/osdr", label: "OSDR" },
     { href: "/ssc", label: "SSC" },
@@ -38,7 +40,7 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-3 py-2 text-xs font-bold uppercase tracking-wider text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all border-2 border-transparent hover:border-black dark:hover:border-white"
+                className="px-3 py-2 text-xs font-bold uppercase tracking-wider text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all border-2 border-transparent hover:border-black dark:hover:border-white no-underline whitespace-nowrap"
               >
                 {link.label}
               </Link>
@@ -67,7 +69,7 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-3 text-sm font-bold uppercase tracking-wider text-center text-black dark:text-white bg-white dark:bg-black border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
+                  className="px-4 py-3 text-sm font-bold uppercase tracking-wider text-center text-black dark:text-white bg-white dark:bg-black border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all no-underline whitespace-nowrap"
                 >
                   {link.label}
                 </Link>

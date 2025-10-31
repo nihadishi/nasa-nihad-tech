@@ -35,6 +35,13 @@ function Sun() {
 function Earth({ position }) {
   const meshRef = useRef();
   
+  // Load Earth texture - using a high-quality Earth texture from a public CDN
+  const [earthTexture, earthBump, earthSpecular] = useTexture([
+    'https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg',
+    'https://threejs.org/examples/textures/planets/earth_normal_2048.jpg',
+    'https://threejs.org/examples/textures/planets/earth_specular_2048.jpg'
+  ]);
+  
   useFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.y += 0.005;
@@ -43,15 +50,24 @@ function Earth({ position }) {
 
   return (
     <group position={position}>
+      {/* Main Earth sphere with texture */}
       <Sphere ref={meshRef} args={[0.18, 64, 64]}>
         <meshStandardMaterial 
-          color="#2B5F9E"
-          roughness={0.6}
-          metalness={0.4}
+          map={earthTexture || null}
+          normalMap={earthBump || null}
+          roughnessMap={earthSpecular || null}
+          roughness={0.7}
+          metalness={0.1}
         />
       </Sphere>
-      <Sphere args={[0.22, 32, 32]}>
-        <meshBasicMaterial color="#4A90E2" transparent opacity={0.1} />
+      {/* Atmospheric glow */}
+      <Sphere args={[0.185, 64, 64]}>
+        <meshBasicMaterial 
+          color="#87ceeb" 
+          transparent 
+          opacity={0.2}
+          side={THREE.BackSide}
+        />
       </Sphere>
     </group>
   );

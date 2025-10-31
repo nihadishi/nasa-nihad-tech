@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { trackApiRequest } from '@/lib/apiTracker';
 
 export async function GET(request) {
   try {
@@ -34,6 +35,9 @@ export async function GET(request) {
         { status: 400 }
       );
     }
+    
+    // Track successful API request
+    trackApiRequest();
     
     return NextResponse.json(data);
     

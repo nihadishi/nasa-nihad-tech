@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ApiUsageTracker from "./ApiUsageTracker";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -33,9 +34,11 @@ export default function Footer() {
             </h3>
             <div className="grid grid-cols-2 gap-2 text-sm">
               <Link href="/apod" className="hover:underline">APOD</Link>
+              <Link href="/iss" className="hover:underline">ISS</Link>
               <Link href="/ssc" className="hover:underline">SSC</Link>
               <Link href="/tle" className="hover:underline">TLE</Link>
               <Link href="/trek" className="hover:underline">Trek</Link>
+              <Link href="/mars-rover" className="hover:underline">Mars Rover</Link>
               <Link href="/asteroids" className="hover:underline">Asteroids</Link>
               <Link href="/exoplanets" className="hover:underline">Exoplanets</Link>
             </div>
@@ -72,12 +75,15 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t-2 border-black dark:border-white pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs">
-          <p className="font-bold uppercase">
-            © {currentYear} • Non-Commercial Use Only
-          </p>
-          <p className="opacity-60">
-            Not affiliated with NASA • Educational purposes only
-          </p>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
+            <p className="font-bold uppercase">
+              © {currentYear} • Non-Commercial Use Only
+            </p>
+            <p className="opacity-60">
+              Not affiliated with NASA • Educational purposes only
+            </p>
+          </div>
+          <ApiUsageTracker />
         </div>
       </div>
     </footer>

@@ -1,19 +1,54 @@
 'use client';
 
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Line, Sphere, Text, Grid, PerspectiveCamera } from '@react-three/drei';
-import { useRef, useState } from 'react';
+import { OrbitControls, Line, Sphere, Text, Grid, PerspectiveCamera, useTexture } from '@react-three/drei';
+import { useRef, useState, useEffect } from 'react';
+import * as THREE from 'three';
 
 function Earth() {
+  const earthRef = useRef();
+  
+  // Load Earth texture - using a high-quality Earth texture from a public CDN
+  const [earthTexture, earthBump, earthSpecular] = useTexture([
+    'https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg',
+    'https://threejs.org/examples/textures/planets/earth_normal_2048.jpg',
+    'https://threejs.org/examples/textures/planets/earth_specular_2048.jpg'
+  ]);
+
+  useEffect(() => {
+    // Slow rotation
+    const animate = () => {
+      if (earthRef.current) {
+        earthRef.current.rotation.y += 0.0005;
+      }
+    };
+    const interval = setInterval(animate, 16);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <Sphere args={[1, 32, 32]} position={[0, 0, 0]}>
-      <meshStandardMaterial 
-        color="#2563eb" 
-        wireframe={false}
-        opacity={0.3}
-        transparent
-      />
-    </Sphere>
+    <group>
+      {/* Main Earth sphere with texture */}
+      <Sphere ref={earthRef} args={[1, 64, 64]} position={[0, 0, 0]}>
+        <meshStandardMaterial 
+          map={earthTexture || null}
+          normalMap={earthBump || null}
+          roughnessMap={earthSpecular || null}
+          roughness={0.7}
+          metalness={0.1}
+        />
+      </Sphere>
+      
+      {/* Atmospheric glow */}
+      <Sphere args={[1.015, 64, 64]} position={[0, 0, 0]}>
+        <meshBasicMaterial 
+          color="#87ceeb" 
+          transparent 
+          opacity={0.2}
+          side={THREE.BackSide}
+        />
+      </Sphere>
+    </group>
   );
 }
 
@@ -213,8 +248,8 @@ export default function Satellite3DViewer({ locationData }) {
           
           {/* Lighting */}
           <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={1} />
-          <pointLight position={[-10, -10, -10]} intensity={0.5} />
+          <directionalLight position={[10, 10, 10]} intensity={1.2} castShadow />
+          <directionalLight position={[-10, -10, -10]} intensity={0.4} />
           
           {/* Grid */}
           <Grid

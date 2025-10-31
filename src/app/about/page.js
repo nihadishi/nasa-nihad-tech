@@ -349,7 +349,7 @@ export default function AboutPage() {
           </div>
 
           {/* Resources & Attribution */}
-          <div className="border-4 border-slate-700 dark:border-slate-600 bg-white dark:bg-black p-8">
+          {/* <div className="border-4 border-slate-700 dark:border-slate-600 bg-white dark:bg-black p-8">
             <h2 className="text-2xl font-bold uppercase tracking-wider mb-6 border-b-2 border-slate-700 dark:border-slate-600 pb-2">
               Resources & Attribution
             </h2>
@@ -388,7 +388,7 @@ export default function AboutPage() {
                 </a>
               </p>
             </div>
-          </div>
+        </div> */}
 
           {/* Footer Note */}
           <div className="border-t-4 border-slate-700 dark:border-slate-600 pt-8 text-center">
@@ -398,13 +398,13 @@ export default function AboutPage() {
             <p className="text-xs text-black/50 dark:text-white/50 mt-2">
               Last updated: October 2025 • This is an independent project and is not officially affiliated with NASA.
             </p>
-            <p className="text-xs text-black/50 dark:text-white/50 mt-1">
+            {/* <p className="text-xs text-black/50 dark:text-white/50 mt-1">
               From low-level C/C++ to high-level web - demonstrating versatility across the software stack.
-            </p>
+            </p> */}
+          </div>
+          </div>
           </div>
         </div>
-      </div>
-    </div>
   );
 }
 

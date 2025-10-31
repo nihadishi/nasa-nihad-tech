@@ -1,19 +1,51 @@
 'use client';
 
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Sphere, Line, Text, Stars } from '@react-three/drei';
-import { useMemo } from 'react';
+import { OrbitControls, Sphere, Line, Text, Stars, useTexture } from '@react-three/drei';
+import { useMemo, useEffect, useRef } from 'react';
+import * as THREE from 'three';
 
 function Earth() {
+  const earthRef = useRef();
+  
+  // Load Earth texture - using a high-quality Earth texture from a public CDN
+  const [earthTexture, earthBump, earthSpecular] = useTexture([
+    'https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg',
+    'https://threejs.org/examples/textures/planets/earth_normal_2048.jpg',
+    'https://threejs.org/examples/textures/planets/earth_specular_2048.jpg'
+  ]);
+
+  useEffect(() => {
+    // Slow rotation
+    const animate = () => {
+      if (earthRef.current) {
+        earthRef.current.rotation.y += 0.0005;
+      }
+    };
+    const interval = setInterval(animate, 16);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <group>
-      {/* Earth */}
-      <Sphere args={[1, 32, 32]} position={[0, 0, 0]}>
+      {/* Main Earth sphere with texture */}
+      <Sphere ref={earthRef} args={[1, 64, 64]} position={[0, 0, 0]}>
         <meshStandardMaterial 
-          color="#1e40af" 
-          wireframe={false}
-          opacity={0.8}
-          transparent
+          map={earthTexture || null}
+          normalMap={earthBump || null}
+          roughnessMap={earthSpecular || null}
+          roughness={0.7}
+          metalness={0.1}
+        />
+      </Sphere>
+      
+      {/* Atmospheric glow */}
+      <Sphere args={[1.015, 64, 64]} position={[0, 0, 0]}>
+        <meshBasicMaterial 
+          color="#87ceeb" 
+          transparent 
+          opacity={0.2}
+          side={THREE.BackSide}
         />
       </Sphere>
       
@@ -261,9 +293,9 @@ export default function TLE3DViewer({ tleData }) {
       <div className="w-full h-[600px] border-2 border-slate-700 dark:border-slate-600 bg-black">
         <Canvas camera={{ position: [4, 4, 4], fov: 50 }}>
           {/* Lighting */}
-          <ambientLight intensity={0.4} />
-          <pointLight position={[10, 10, 10]} intensity={1} />
-          <pointLight position={[-10, -10, -10]} intensity={0.3} />
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[5, 3, 5]} intensity={1.2} castShadow />
+          <directionalLight position={[-5, -3, -5]} intensity={0.4} />
           
           {/* Stars background */}
           <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />

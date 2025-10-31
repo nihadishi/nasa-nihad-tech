@@ -1,7 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import ExoplanetVisualization from '@/components/ExoplanetVisualization';
+import dynamic from 'next/dynamic';
+
+const ExoplanetVisualization = dynamic(() => import('@/components/ExoplanetVisualization'), { ssr: false });
+const Exoplanets3DViewer = dynamic(() => import('@/components/Exoplanets3DViewer'), { ssr: false });
 
 export default function ExoplanetsPage() {
   const [planets, setPlanets] = useState([]);
@@ -9,6 +12,7 @@ export default function ExoplanetsPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [show3D, setShow3D] = useState(false);
+  const [show3DScatter, setShow3DScatter] = useState(false);
 
   const [discoveryMethod, setDiscoveryMethod] = useState('all');
   const [discoveryFacility, setDiscoveryFacility] = useState('all');
@@ -47,43 +51,52 @@ export default function ExoplanetsPage() {
     const columns = 'pl_name,hostname,pl_rade,pl_bmasse,pl_orbper,pl_eqt,pl_orbsmax,pl_orbeccen,discoverymethod,disc_year,disc_facility,sy_dist,tran_flag,st_mass';
     let query = `select ${columns} from ps where default_flag=1`;
     
-    if (discoveryMethod !== 'all') {
-      query += ` and discoverymethod='${discoveryMethod}'`;
+    if (discoveryMethod !== 'all' && discoveryMethod && discoveryMethod.trim()) {
+      query += ` and discoverymethod='${discoveryMethod.replace(/'/g, "''")}'`;
     }
     
-    if (discoveryFacility !== 'all') {
-      query += ` and disc_facility LIKE '%${discoveryFacility}%'`;
+    if (discoveryFacility !== 'all' && discoveryFacility && discoveryFacility.trim()) {
+      query += ` and disc_facility LIKE '%${discoveryFacility.replace(/'/g, "''")}%'`;
     }
     
-    if (transitFlag !== 'all') {
-      query += ` and tran_flag=${transitFlag}`;
+    if (transitFlag !== 'all' && transitFlag) {
+      const transitValue = transitFlag === '1' || transitFlag === 1 ? 1 : 0;
+      query += ` and tran_flag=${transitValue}`;
     }
     
-    if (minRadius) {
-      query += ` and pl_rade>=${minRadius}`;
+    if (minRadius && minRadius.trim() && !isNaN(parseFloat(minRadius))) {
+      query += ` and pl_rade>=${parseFloat(minRadius)}`;
     }
     
-    if (maxRadius) {
-      query += ` and pl_rade<=${maxRadius}`;
+    if (maxRadius && maxRadius.trim() && !isNaN(parseFloat(maxRadius))) {
+      query += ` and pl_rade<=${parseFloat(maxRadius)}`;
     }
     
-    if (minMass) {
-      query += ` and pl_bmasse>=${minMass}`;
+    if (minMass && minMass.trim() && !isNaN(parseFloat(minMass))) {
+      query += ` and pl_bmasse>=${parseFloat(minMass)}`;
     }
     
-    if (maxMass) {
-      query += ` and pl_bmasse<=${maxMass}`;
+    if (maxMass && maxMass.trim() && !isNaN(parseFloat(maxMass))) {
+      query += ` and pl_bmasse<=${parseFloat(maxMass)}`;
     }
     
-    if (minTemp) {
-      query += ` and pl_eqt>=${minTemp}`;
+    if (minTemp && minTemp.trim() && !isNaN(parseFloat(minTemp))) {
+      query += ` and pl_eqt>=${parseFloat(minTemp)}`;
     }
     
-    if (maxTemp) {
-      query += ` and pl_eqt<=${maxTemp}`;
+    if (maxTemp && maxTemp.trim() && !isNaN(parseFloat(maxTemp))) {
+      query += ` and pl_eqt<=${parseFloat(maxTemp)}`;
     }
     
-    query += ` order by pl_name asc LIMIT ${limit}`;
+    query += ` order by pl_name asc`;
+    
+    // Use TOP instead of LIMIT for better TAP/ADQL compatibility
+    // But wrap in a subquery if needed for Oracle compatibility
+    const limitNum = parseInt(limit, 10);
+    const validLimit = limitNum && limitNum > 0 && limitNum <= 10000 ? limitNum : 50;
+    
+    // Use TOP in ADQL/TAP format
+    query = query.replace(/^select /i, `select top ${validLimit} `);
     
     return query;
   };
@@ -174,10 +187,25 @@ export default function ExoplanetsPage() {
             </div>
             <div className="flex gap-2">
               <button
-                onClick={() => setShow3D(!show3D)}
-                className="relative border-4 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white px-4 py-2 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-0.5 hover:-translate-x-0.5"
+                onClick={() => setShow3DScatter(!show3DScatter)}
+                className={`relative border-4 border-black dark:border-white px-4 py-2 text-sm font-bold uppercase tracking-wider transition-all duration-300 ${
+                  show3DScatter 
+                    ? 'bg-black dark:bg-white text-white dark:text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] -translate-y-0.5 -translate-x-0.5'
+                    : 'bg-white dark:bg-black text-black dark:text-white hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-0.5 hover:-translate-x-0.5'
+                }`}
               >
-                {show3D ? 'Hide' : 'Show'} 3D
+                {show3DScatter ? 'Hide' : 'Show'} 3D Plot
+              </button>
+              <button
+                onClick={() => setShow3D(!show3D)}
+                className={`relative border-4 border-black dark:border-white px-4 py-2 text-sm font-bold uppercase tracking-wider transition-all duration-300 ${
+                  show3D && selectedPlanet
+                    ? 'bg-black dark:bg-white text-white dark:text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] -translate-y-0.5 -translate-x-0.5'
+                    : 'bg-white dark:bg-black text-black dark:text-white hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-0.5 hover:-translate-x-0.5'
+                }`}
+                disabled={!selectedPlanet}
+              >
+                {show3D ? 'Hide' : 'Show'} Planet 3D
               </button>
               <button
                 onClick={fetchPlanets}
@@ -321,6 +349,16 @@ export default function ExoplanetsPage() {
             </div>
           </div>
         </div>
+
+        {show3DScatter && planets.length > 0 && (
+          <div className="mb-8">
+            <Exoplanets3DViewer 
+              planets={planets} 
+              selectedPlanet={selectedPlanet}
+              onPlanetSelect={setSelectedPlanet}
+            />
+          </div>
+        )}
 
         {show3D && selectedPlanet && (
           <div className="mb-8">
