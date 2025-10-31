@@ -9,6 +9,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
+    { href: "/about", label: "Me" },
     { href: "/apod", label: "APOD" },
     { href: "/asteroids", label: "Asteroids" },
     { href: "/donki", label: "DONKI" },
@@ -19,7 +20,9 @@ export default function Header() {
     { href: "/mars-weather", label: "Mars" },
     { href: "/nasa-images", label: "Media" },
     { href: "/osdr", label: "OSDR" },
-    { href: "/about", label: "About" }
+    { href: "/ssc", label: "SSC" },
+    { href: "/tle", label: "TLE" },
+    { href: "/trek", label: "Trek" }
   ];
 
   return (
