@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function ThemeToggle() {
   const [theme, setTheme] = useState(() => {
-    if (typeof window === "undefined") return "light";
+    if (typeof window === "undefined") return "dark";
     const stored = localStorage.getItem("theme");
     const rootHasDark = document.documentElement.classList.contains("dark");
     return stored || (rootHasDark ? "dark" : "light");
@@ -33,11 +33,12 @@ export default function ThemeToggle() {
   return (
     <button
       suppressHydrationWarning
-      onClick={toggle}
-      aria-label="Toggle theme"
+      disabled
+      onClick={(e) => e.preventDefault()}
+      aria-label="Theme toggle - Coming soon (In Development)"
       aria-pressed={theme === "dark"}
-      title={theme === "dark" ? "Switch to light" : "Switch to dark"}
-      className="group relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-300 bg-white text-zinc-900 outline-none transition [@media(hover:hover)]:hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:[@media(hover:hover)]:hover:bg-zinc-800"
+      title="Theme toggle - Coming soon (In Development)"
+      className="group relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-300 bg-white text-zinc-900 outline-none transition opacity-50 cursor-not-allowed dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
     >
       <span className="sr-only">Theme</span>
       <svg suppressHydrationWarning
@@ -65,6 +66,7 @@ export default function ThemeToggle() {
       >
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
       </svg>
+      <span className="absolute -bottom-1 -right-1 text-[8px] font-bold bg-red-500 text-white px-1 rounded">DEV</span>
     </button>
   );
 }

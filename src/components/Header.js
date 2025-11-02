@@ -48,6 +48,28 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <button
+              disabled
+              title="Language selector - Coming soon (In Development)"
+              aria-label="Language selector - Coming soon"
+              className="group relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-300 bg-white text-zinc-900 outline-none transition opacity-50 cursor-not-allowed dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            >
+              <span className="sr-only">Language</span>
+              <svg
+                className="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+              </svg>
+              <span className="absolute -bottom-1 -right-1 text-[8px] font-bold bg-red-500 text-white px-1 rounded">DEV</span>
+            </button>
             <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
