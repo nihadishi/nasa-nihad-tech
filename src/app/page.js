@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import WhatsAboveSection from "@/components/WhatsAboveSection";
 
 export default function Home() {
   return (
@@ -40,7 +41,7 @@ export default function Home() {
               </div>
               <div className="mt-16 grid grid-cols-3 gap-6">
                 <div className="border-l-4 border-blue-600 dark:border-blue-500 pl-4">
-                  <div className="text-4xl font-bold">15</div>
+                  <div className="text-4xl font-bold">16</div>
                   <div className="text-sm font-bold uppercase tracking-wider mt-1">APIs</div>
                 </div>
                 <div className="border-l-4 border-green-600 dark:border-green-500 pl-4">
@@ -114,6 +115,9 @@ export default function Home() {
           </div>
         </section>
 
+        {/* What's Above Section */}
+        <WhatsAboveSection />
+
         {/* Interactive 3D Features Highlight */}
         <section className="border-b-4 border-slate-700 dark:border-slate-600 bg-gradient-to-b from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 py-24">
           <div className="mx-auto max-w-7xl px-6">
@@ -179,7 +183,7 @@ export default function Home() {
           <div className="mx-auto max-w-7xl px-6">
             <div className="mb-12 pb-6 border-b-4 border-slate-700 dark:border-slate-600">
               <h2 className="text-4xl font-bold uppercase tracking-tight mb-3">
-                All 15 Integrated APIs
+                All 16 Integrated APIs
               </h2>
               <p className="text-sm font-medium uppercase tracking-wider text-black/60 dark:text-white/60">
                 Comprehensive space data at your fingertips
@@ -245,6 +249,12 @@ export default function Home() {
                 <h3 className="text-lg font-bold uppercase mb-2">Mars Rover</h3>
                 <p className="text-xs">Photo Gallery</p>
               </Link> */}
+
+              <Link href="/n2yo" className="group border-4 border-green-600 dark:border-green-500 bg-green-50 dark:bg-green-950/20 p-6 transition-all hover:shadow-[6px_6px_0px_0px_rgba(22,163,74,1)] hover:-translate-y-1 hover:-translate-x-1">
+                <div className="text-4xl mb-3">🛰️</div>
+                <h3 className="text-lg font-bold uppercase mb-2">N2YO</h3>
+                <p className="text-xs">Satellite Tracking</p>
+              </Link>
 
               <Link href="/nasa-images" className="group border-4 border-slate-700 dark:border-slate-600 bg-white dark:bg-black p-6 transition-all hover:shadow-[6px_6px_0px_0px_rgba(71,85,105,1)] hover:-translate-y-1 hover:-translate-x-1">
                 <div className="text-4xl mb-3">📚</div>

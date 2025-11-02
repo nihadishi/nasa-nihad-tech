@@ -21,6 +21,7 @@ export default function Header() {
     { href: "/mars-weather", label: "Mars Weather" },
     // { href: "/mars-rover", label: "Mars Rover" },
     { href: "/nasa-images", label: "Media" },
+    { href: "/n2yo", label: "N2YO" },
     { href: "/osdr", label: "OSDR" },
     { href: "/ssc", label: "SSC" },
     { href: "/tle", label: "TLE" },
