@@ -15,8 +15,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "nasa.nihad.tech — An elegant unofficial NASA fan site",
-  description: "A modern, elegant, for-fun tribute to exploration, missions, and imagery.",
+  title: "Explore NASA APIs and Data",
+  description: "Explore NASA's vast collection of space data, APIs, and visualizations including APOD, Mars rovers, ISS tracking, exoplanets, and more.",
+  keywords: "NASA, space, astronomy, APIs, exoplanets, ISS, Mars, APOD, space exploration",
+  authors: [{ name: "Tech NASA" }],
+  openGraph: {
+    title: "Explore NASA APIs and Data",
+    description: "Explore NASA's vast collection of space data, APIs, and visualizations including APOD, Mars rovers, ISS tracking, exoplanets, and more.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Explore NASA APIs and Data",
+    description: "Explore NASA's vast collection of space data, APIs, and visualizations including APOD, Mars rovers, ISS tracking, exoplanets, and more.",
+  },
 };
 
 export default function RootLayout({ children }) {
