@@ -28,6 +28,7 @@ export default function UnsupervisedLearningPage() {
   const [progress, setProgress] = useState(0);
   const [imageInfo, setImageInfo] = useState(null);
   const [pixelMatrix, setPixelMatrix] = useState(null);
+  const [originalImageData, setOriginalImageData] = useState(null); // Store original RGB data for export
   const [matrixView, setMatrixView] = useState("rgb"); // "rgb" or "cluster"
   const [matrixRegion, setMatrixRegion] = useState({ x: 0, y: 0, size: 20 }); // Show 20x20 region
   const [fullScreenMatrix, setFullScreenMatrix] = useState(false);
@@ -53,6 +54,7 @@ export default function UnsupervisedLearningPage() {
         setProcessingDetails(null);
         setImageInfo(null);
         setPixelMatrix(null);
+        setOriginalImageData(null);
         setCurrentStep("");
         setProgress(0);
         
@@ -123,6 +125,23 @@ export default function UnsupervisedLearningPage() {
       const extractStart = performance.now();
       const imageData = ctx.getImageData(0, 0, width, height);
       timings.dataExtraction = (performance.now() - extractStart).toFixed(2);
+
+      // Store original image data for export (RGB values)
+      const originalData = [];
+      const originalImageDataArray = imageData.data;
+      for (let y = 0; y < height; y++) {
+        const row = [];
+        for (let x = 0; x < width; x++) {
+          const pixelIndex = (y * width + x) * 4;
+          row.push({
+            r: originalImageDataArray[pixelIndex],
+            g: originalImageDataArray[pixelIndex + 1],
+            b: originalImageDataArray[pixelIndex + 2],
+          });
+        }
+        originalData.push(row);
+      }
+      setOriginalImageData({ data: originalData, width, height });
 
       // Perform K-means clustering with progress updates (async)
       setCurrentStep("Running K-means clustering...");
@@ -297,14 +316,15 @@ export default function UnsupervisedLearningPage() {
         <ColorDecompositionMatrix clusterStats={clusterStats} />
 
         <div className="w-full -mx-6 px-6">
-          <ImageMatrixView
-            pixelMatrix={pixelMatrix}
-            matrixView={matrixView}
-            setMatrixView={setMatrixView}
-            matrixRegion={matrixRegion}
-            setMatrixRegion={setMatrixRegion}
-            onFullScreenClick={handleFullScreenClick}
-          />
+        <ImageMatrixView
+          pixelMatrix={pixelMatrix}
+          originalImageData={originalImageData}
+          matrixView={matrixView}
+          setMatrixView={setMatrixView}
+          matrixRegion={matrixRegion}
+          setMatrixRegion={setMatrixRegion}
+          onFullScreenClick={handleFullScreenClick}
+        />
         </div>
 
         <FullScreenMatrixPreview

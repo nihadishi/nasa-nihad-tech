@@ -1,9 +1,11 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import * as XLSX from "xlsx";
 
 export default function ImageMatrixView({ 
   pixelMatrix, 
+  originalImageData,
   matrixView, 
   setMatrixView, 
   matrixRegion, 
@@ -39,6 +41,91 @@ export default function ImageMatrixView({
 
   if (!pixelMatrix) return null;
 
+  const exportToExcel = () => {
+    if (!originalImageData) {
+      alert("Original image data not available. Please process the image first.");
+      return;
+    }
+
+    // Create workbook
+    const wb = XLSX.utils.book_new();
+
+    // Create RGB data sheet
+    const rgbData = [];
+    
+    // Add header row
+    const headerRow = ['Y\\X'];
+    for (let x = 0; x < originalImageData.width; x++) {
+      headerRow.push(`X${x}`);
+    }
+    rgbData.push(headerRow);
+
+    // Add data rows with RGB values
+    for (let y = 0; y < originalImageData.height; y++) {
+      const row = [`Y${y}`];
+      for (let x = 0; x < originalImageData.width; x++) {
+        const pixel = originalImageData.data[y][x];
+        row.push(`R:${pixel.r} G:${pixel.g} B:${pixel.b}`);
+      }
+      rgbData.push(row);
+    }
+
+    // Create separate sheets for R, G, B values
+    const rData = [['Y\\X', ...Array.from({ length: originalImageData.width }, (_, i) => `X${i}`)]];
+    const gData = [['Y\\X', ...Array.from({ length: originalImageData.width }, (_, i) => `X${i}`)]];
+    const bData = [['Y\\X', ...Array.from({ length: originalImageData.width }, (_, i) => `X${i}`)]];
+
+    for (let y = 0; y < originalImageData.height; y++) {
+      const rRow = [`Y${y}`];
+      const gRow = [`Y${y}`];
+      const bRow = [`Y${y}`];
+      
+      for (let x = 0; x < originalImageData.width; x++) {
+        const pixel = originalImageData.data[y][x];
+        rRow.push(pixel.r);
+        gRow.push(pixel.g);
+        bRow.push(pixel.b);
+      }
+      
+      rData.push(rRow);
+      gData.push(gRow);
+      bData.push(bRow);
+    }
+
+    // Create worksheets
+    const wsRGB = XLSX.utils.aoa_to_sheet(rgbData);
+    const wsR = XLSX.utils.aoa_to_sheet(rData);
+    const wsG = XLSX.utils.aoa_to_sheet(gData);
+    const wsB = XLSX.utils.aoa_to_sheet(bData);
+
+    // Set column widths for better readability
+    const setColumnWidths = (ws, width) => {
+      const colWidths = [{ wch: 8 }]; // First column for Y coordinates
+      for (let i = 0; i < originalImageData.width; i++) {
+        colWidths.push({ wch: width });
+      }
+      ws['!cols'] = colWidths;
+    };
+
+    setColumnWidths(wsRGB, 15);
+    setColumnWidths(wsR, 6);
+    setColumnWidths(wsG, 6);
+    setColumnWidths(wsB, 6);
+
+    // Add worksheets to workbook
+    XLSX.utils.book_append_sheet(wb, wsRGB, "RGB Combined");
+    XLSX.utils.book_append_sheet(wb, wsR, "Red Channel");
+    XLSX.utils.book_append_sheet(wb, wsG, "Green Channel");
+    XLSX.utils.book_append_sheet(wb, wsB, "Blue Channel");
+
+    // Generate filename with timestamp
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+    const filename = `image-rgb-export-${timestamp}.xlsx`;
+
+    // Write and download
+    XLSX.writeFile(wb, filename);
+  };
+
   return (
     <section className="mb-12 w-full">
       <div className="border-4 border-slate-700 dark:border-slate-600 bg-white dark:bg-black p-8 w-full">
@@ -46,12 +133,22 @@ export default function ImageMatrixView({
           <h2 className="text-2xl font-bold uppercase tracking-wider">
             Image as Numerical Matrix
           </h2>
-          <button
-            onClick={onFullScreenClick}
-            className="px-6 py-3 text-sm font-bold uppercase border-4 border-purple-600 dark:border-purple-500 bg-purple-600 dark:bg-purple-500 text-white hover:shadow-[8px_8px_0px_0px_rgba(147,51,234,1)] hover:-translate-y-1 hover:-translate-x-1 transition-all"
-          >
-            🔍 Full Screen Preview
-          </button>
+          <div className="flex gap-3">
+            {originalImageData && (
+              <button
+                onClick={exportToExcel}
+                className="px-6 py-3 text-sm font-bold uppercase border-4 border-green-600 dark:border-green-500 bg-green-600 dark:bg-green-500 text-white hover:shadow-[8px_8px_0px_0px_rgba(22,163,74,1)] hover:-translate-y-1 hover:-translate-x-1 transition-all"
+              >
+                📊 Export to Excel
+              </button>
+            )}
+            <button
+              onClick={onFullScreenClick}
+              className="px-6 py-3 text-sm font-bold uppercase border-4 border-purple-600 dark:border-purple-500 bg-purple-600 dark:bg-purple-500 text-white hover:shadow-[8px_8px_0px_0px_rgba(147,51,234,1)] hover:-translate-y-1 hover:-translate-x-1 transition-all"
+            >
+              🔍 Full Screen Preview
+            </button>
+          </div>
         </div>
         
         {/* Controls */}
