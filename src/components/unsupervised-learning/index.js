@@ -8,5 +8,7 @@ export { default as ColorDecompositionMatrix } from './ColorDecompositionMatrix'
 export { default as ImageMatrixView } from './ImageMatrixView';
 export { default as FullScreenMatrixPreview } from './FullScreenMatrixPreview';
 export { default as InformationSection } from './InformationSection';
+export { default as FormulasSection } from './FormulasSection';
+export { default as CalculationResults } from './CalculationResults';
 export * from './utils';
 

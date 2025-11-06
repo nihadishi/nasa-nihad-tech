@@ -12,6 +12,8 @@ import {
   ImageMatrixView,
   FullScreenMatrixPreview,
   InformationSection,
+  FormulasSection,
+  CalculationResults,
   kMeansClustering,
 } from "@/components/unsupervised-learning";
 
@@ -311,6 +313,13 @@ export default function UnsupervisedLearningPage() {
 
         <ProcessingDetails processingDetails={processingDetails} />
 
+        <CalculationResults 
+          processingDetails={processingDetails}
+          clusterStats={clusterStats}
+          pixelMatrix={pixelMatrix}
+          originalImageData={originalImageData}
+        />
+
         <ClusterStatistics clusterStats={clusterStats} />
 
         <ColorDecompositionMatrix clusterStats={clusterStats} />
@@ -349,6 +358,8 @@ export default function UnsupervisedLearningPage() {
         />
 
         <InformationSection />
+
+        <FormulasSection />
 
         {/* Hidden canvases for processing */}
         <canvas ref={canvasRef} className="hidden" />
