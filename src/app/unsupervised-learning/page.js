@@ -15,6 +15,7 @@ import {
   FormulasSection,
   CalculationResults,
   kMeansClustering,
+  isodataClustering,
 } from "@/components/unsupervised-learning";
 
 export default function UnsupervisedLearningPage() {
@@ -22,7 +23,13 @@ export default function UnsupervisedLearningPage() {
   const [imagePreview, setImagePreview] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [clusteredImage, setClusteredImage] = useState(null);
+  const [algorithm, setAlgorithm] = useState("kmeans"); // "kmeans" or "isodata"
   const [clusters, setClusters] = useState(5);
+  const [minClusters, setMinClusters] = useState(2);
+  const [maxClusters, setMaxClusters] = useState(20);
+  const [mergeThreshold, setMergeThreshold] = useState(30);
+  const [splitThreshold, setSplitThreshold] = useState(50);
+  const [minClusterSize, setMinClusterSize] = useState(50);
   const [clusterStats, setClusterStats] = useState(null);
   const [processingTime, setProcessingTime] = useState(null);
   const [processingDetails, setProcessingDetails] = useState(null);
@@ -59,6 +66,10 @@ export default function UnsupervisedLearningPage() {
         setOriginalImageData(null);
         setCurrentStep("");
         setProgress(0);
+        if (algorithm === "isodata") {
+          // Reset clusters to initial value for ISODATA
+          setClusters(5);
+        }
         
         // Get image info
         const img = new window.Image();
@@ -145,13 +156,28 @@ export default function UnsupervisedLearningPage() {
       }
       setOriginalImageData({ data: originalData, width, height });
 
-      // Perform K-means clustering with progress updates (async)
-      setCurrentStep("Running K-means clustering...");
+      // Perform clustering with progress updates (async)
+      setCurrentStep(`Running ${algorithm === "kmeans" ? "K-means" : "ISODATA"} clustering...`);
       const clusterStart = performance.now();
-      const result = await kMeansClustering(imageData, clusters, 20, (progressUpdate) => {
-        setCurrentStep(progressUpdate.step);
-        setProgress(progressUpdate.progress);
-      });
+      const result = algorithm === "kmeans"
+        ? await kMeansClustering(imageData, clusters, 20, (progressUpdate) => {
+            setCurrentStep(progressUpdate.step);
+            setProgress(progressUpdate.progress);
+          })
+        : await isodataClustering(
+            imageData, 
+            clusters, 
+            minClusters, 
+            maxClusters, 
+            20, 
+            mergeThreshold, 
+            splitThreshold, 
+            minClusterSize,
+            (progressUpdate) => {
+              setCurrentStep(progressUpdate.step);
+              setProgress(progressUpdate.progress);
+            }
+          );
       timings.clustering = (performance.now() - clusterStart).toFixed(2);
 
       // Create result canvas
@@ -233,11 +259,12 @@ export default function UnsupervisedLearningPage() {
         imageDimensions: { width: originalWidth, height: originalHeight },
         processedDimensions: { width, height },
         totalPixels: width * height,
-        clusters: clusters,
+        clusters: result.finalClusterCount || clusters,
         iterations: result.iterations,
         converged: result.converged,
         totalInertia: result.totalInertia,
         iterationDetails: result.iterationDetails,
+        algorithm: algorithm,
         timings: {
           ...timings,
           total: totalTime,
@@ -290,8 +317,20 @@ export default function UnsupervisedLearningPage() {
         <ImageUploadControls
           fileInputRef={fileInputRef}
           imagePreview={imagePreview}
+          algorithm={algorithm}
+          setAlgorithm={setAlgorithm}
           clusters={clusters}
           setClusters={setClusters}
+          minClusters={minClusters}
+          setMinClusters={setMinClusters}
+          maxClusters={maxClusters}
+          setMaxClusters={setMaxClusters}
+          mergeThreshold={mergeThreshold}
+          setMergeThreshold={setMergeThreshold}
+          splitThreshold={splitThreshold}
+          setSplitThreshold={setSplitThreshold}
+          minClusterSize={minClusterSize}
+          setMinClusterSize={setMinClusterSize}
           onImageSelect={handleImageSelect}
           onProcessImage={processImage}
           processing={processing}

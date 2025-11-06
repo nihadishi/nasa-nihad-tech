@@ -16,6 +16,14 @@ export default function ProcessingDetails({ processingDetails }) {
             <h3 className="text-lg font-bold uppercase mb-4">Algorithm Metrics</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
+                <span className="text-black/60 dark:text-white/60">Algorithm:</span>
+                <span className="font-bold">{processingDetails.algorithm === "isodata" ? "ISODATA" : "K-Means"}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-black/60 dark:text-white/60">Clusters:</span>
+                <span className="font-bold font-mono">{processingDetails.clusters}</span>
+              </div>
+              <div className="flex justify-between">
                 <span className="text-black/60 dark:text-white/60">Iterations:</span>
                 <span className="font-bold font-mono">{processingDetails.iterations}</span>
               </div>
@@ -71,6 +79,9 @@ export default function ProcessingDetails({ processingDetails }) {
                 <thead>
                   <tr className="border-b-2 border-slate-300 dark:border-slate-700">
                     <th className="text-left py-2 px-2 font-bold uppercase">Iteration</th>
+                    {processingDetails.algorithm === "isodata" && (
+                      <th className="text-right py-2 px-2 font-bold uppercase">Clusters</th>
+                    )}
                     <th className="text-right py-2 px-2 font-bold uppercase">Pixels Changed</th>
                     <th className="text-right py-2 px-2 font-bold uppercase">Centroids Moved</th>
                     <th className="text-right py-2 px-2 font-bold uppercase">Inertia</th>
@@ -85,6 +96,9 @@ export default function ProcessingDetails({ processingDetails }) {
                       className="border-b border-slate-200 dark:border-slate-800"
                     >
                       <td className="py-2 px-2 font-mono">{detail.iteration}</td>
+                      {processingDetails.algorithm === "isodata" && (
+                        <td className="py-2 px-2 text-right font-mono">{detail.clustersCount || processingDetails.clusters}</td>
+                      )}
                       <td className="py-2 px-2 text-right font-mono">{detail.pixelsChanged.toLocaleString()}</td>
                       <td className="py-2 px-2 text-right font-mono">{detail.centroidsMoved}</td>
                       <td className="py-2 px-2 text-right font-mono">{detail.inertia}</td>

@@ -239,6 +239,136 @@ export default function FormulasSection() {
             </div>
           </div>
         </div>
+        {/* ISODATA Specific Formulas */}
+        <div className="border-t-4 border-purple-500 dark:border-purple-400 pt-8 mt-8">
+          <h3 className="text-2xl font-bold uppercase mb-6 text-purple-600 dark:text-purple-400">
+            ISODATA Algorithm Formulas
+          </h3>
+          
+          <div className="space-y-6">
+            {/* Standard Deviation */}
+            <div className="border-2 border-slate-300 dark:border-slate-700 p-6">
+              <h4 className="text-lg font-bold uppercase mb-4">Standard Deviation (for Splitting)</h4>
+              <p className="text-sm mb-4 text-black/70 dark:text-white/70">
+                ISODATA calculates the standard deviation for each cluster to determine if it should be split:
+              </p>
+              <div className="bg-slate-100 dark:bg-slate-900 p-4 rounded border-2 border-slate-300 dark:border-slate-700 font-mono text-lg mb-4">
+                <div className="text-center">
+                  <div className="mb-2">σᵢ = √[Σ(xⱼ - μᵢ)² / nᵢ]</div>
+                  <div className="text-sm text-black/60 dark:text-white/60 mt-2">
+                    where: σᵢ = std dev of cluster i, xⱼ = pixel j, μᵢ = centroid of cluster i, nᵢ = pixels in cluster i
+                  </div>
+                </div>
+              </div>
+              <div className="bg-slate-50 dark:bg-slate-950 p-3 rounded font-mono text-xs">
+                <div>{'// For each cluster, calculate std dev for R, G, B'}</div>
+                <div>sumR2 = 0, sumG2 = 0, sumB2 = 0;</div>
+                <div>cluster.pixels.forEach(pixel =&gt; {'{'}</div>
+                <div className="ml-4">sumR2 += Math.pow(pixel.r - centroid.r, 2);</div>
+                <div className="ml-4">sumG2 += Math.pow(pixel.g - centroid.g, 2);</div>
+                <div className="ml-4">sumB2 += Math.pow(pixel.b - centroid.b, 2);</div>
+                <div>{'}'});</div>
+                <div>stdR = Math.sqrt(sumR2 / cluster.count);</div>
+                <div>stdG = Math.sqrt(sumG2 / cluster.count);</div>
+                <div>stdB = Math.sqrt(sumB2 / cluster.count);</div>
+                <div>maxStd = Math.max(stdR, stdG, stdB);</div>
+              </div>
+              <p className="text-sm text-black/60 dark:text-white/60 mt-2">
+                <strong>Split condition:</strong> If maxStd &gt; splitThreshold AND cluster.count &gt; 2 × minClusterSize, split the cluster.
+              </p>
+            </div>
+
+            {/* Merge Distance */}
+            <div className="border-2 border-slate-300 dark:border-slate-700 p-6">
+              <h4 className="text-lg font-bold uppercase mb-4">Merge Distance (for Merging)</h4>
+              <p className="text-sm mb-4 text-black/70 dark:text-white/70">
+                ISODATA calculates the distance between cluster centroids to determine if they should be merged:
+              </p>
+              <div className="bg-slate-100 dark:bg-slate-900 p-4 rounded border-2 border-slate-300 dark:border-slate-700 font-mono text-lg mb-4">
+                <div className="text-center">
+                  <div className="mb-2">d(cᵢ, cⱼ) = √[(Rᵢ - Rⱼ)² + (Gᵢ - Gⱼ)² + (Bᵢ - Bⱼ)²]</div>
+                  <div className="text-sm text-black/60 dark:text-white/60 mt-2">
+                    where: cᵢ, cⱼ = centroids of clusters i and j
+                  </div>
+                </div>
+              </div>
+              <div className="bg-slate-50 dark:bg-slate-950 p-3 rounded font-mono text-xs">
+                <div>distance = Math.sqrt(</div>
+                <div className="ml-4">Math.pow(centroid1.r - centroid2.r, 2) +</div>
+                <div className="ml-4">Math.pow(centroid1.g - centroid2.g, 2) +</div>
+                <div className="ml-4">Math.pow(centroid1.b - centroid2.b, 2)</div>
+                <div>);</div>
+              </div>
+              <p className="text-sm text-black/60 dark:text-white/60 mt-2">
+                <strong>Merge condition:</strong> If distance &lt; mergeThreshold AND total clusters &gt; minClusters, merge the clusters.
+              </p>
+            </div>
+
+            {/* Merged Centroid */}
+            <div className="border-2 border-slate-300 dark:border-slate-700 p-6">
+              <h4 className="text-lg font-bold uppercase mb-4">Merged Centroid Calculation</h4>
+              <p className="text-sm mb-4 text-black/70 dark:text-white/70">
+                When two clusters are merged, the new centroid is the weighted average:
+              </p>
+              <div className="bg-slate-100 dark:bg-slate-900 p-4 rounded border-2 border-slate-300 dark:border-slate-700 font-mono text-lg mb-4">
+                <div className="text-center">
+                  <div className="mb-2">c_new = (n₁ × c₁ + n₂ × c₂) / (n₁ + n₂)</div>
+                  <div className="text-sm text-black/60 dark:text-white/60 mt-2">
+                    where: n₁, n₂ = pixel counts, c₁, c₂ = centroids
+                  </div>
+                </div>
+              </div>
+              <div className="bg-slate-50 dark:bg-slate-950 p-3 rounded font-mono text-xs">
+                <div>totalCount = cluster1.count + cluster2.count;</div>
+                <div>newR = Math.round((cluster1.r + cluster2.r) / totalCount);</div>
+                <div>newG = Math.round((cluster1.g + cluster2.g) / totalCount);</div>
+                <div>newB = Math.round((cluster1.b + cluster2.b) / totalCount);</div>
+              </div>
+            </div>
+
+            {/* Split Centroid */}
+            <div className="border-2 border-slate-300 dark:border-slate-700 p-6">
+              <h4 className="text-lg font-bold uppercase mb-4">Split Centroid Calculation</h4>
+              <p className="text-sm mb-4 text-black/70 dark:text-white/70">
+                When a cluster is split, two new centroids are created by offsetting along the dimension with maximum standard deviation:
+              </p>
+              <div className="bg-slate-100 dark:bg-slate-900 p-4 rounded border-2 border-slate-300 dark:border-slate-700 font-mono text-lg mb-4">
+                <div className="text-center">
+                  <div className="mb-2">c₁ = c - offset × direction</div>
+                  <div className="mb-2">c₂ = c + offset × direction</div>
+                  <div className="text-sm text-black/60 dark:text-white/60 mt-2">
+                    where: offset = 0.5 × maxStd, direction = unit vector along max std dev dimension
+                  </div>
+                </div>
+              </div>
+              <div className="bg-slate-50 dark:bg-slate-950 p-3 rounded font-mono text-xs">
+                <div>offset = stdDev.max * 0.5;</div>
+                <div>{'// Offset along dimension with max std dev'}</div>
+                <div>newCentroid1.r = centroid.r - (stdDev.r &gt; stdDev.g &amp;&amp; stdDev.r &gt; stdDev.b ? offset : 0);</div>
+                <div>newCentroid1.g = centroid.g - (stdDev.g &gt; stdDev.r &amp;&amp; stdDev.g &gt; stdDev.b ? offset : 0);</div>
+                <div>newCentroid1.b = centroid.b - (stdDev.b &gt; stdDev.r &amp;&amp; stdDev.b &gt; stdDev.g ? offset : 0);</div>
+                <div>{'// Similar for newCentroid2 with + offset'}</div>
+              </div>
+            </div>
+
+            {/* ISODATA Algorithm Steps */}
+            <div className="border-2 border-slate-300 dark:border-slate-700 p-6">
+              <h4 className="text-lg font-bold uppercase mb-4">ISODATA Algorithm Steps</h4>
+              <ol className="list-decimal list-inside space-y-2 text-sm">
+                <li>Initialize K centroids randomly (like K-means)</li>
+                <li>Assign each pixel to the nearest centroid</li>
+                <li>Update centroids (mean of assigned pixels)</li>
+                <li><strong>Remove</strong> clusters with count &lt; minClusterSize (if clusters &gt; minClusters)</li>
+                <li><strong>Split</strong> clusters with maxStd &gt; splitThreshold (if clusters &lt; maxClusters, on even iterations)</li>
+                <li><strong>Merge</strong> clusters with distance &lt; mergeThreshold (if clusters &gt; minClusters, on odd iterations)</li>
+                <li>Repeat steps 2-6 until convergence or max iterations</li>
+              </ol>
+              <p className="text-sm text-black/60 dark:text-white/60 mt-4">
+                <strong>Key difference from K-means:</strong> ISODATA dynamically adjusts the number of clusters through merge/split operations, while K-means keeps a fixed number.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
