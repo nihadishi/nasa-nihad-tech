@@ -285,6 +285,12 @@ export default function Home() {
                 <h3 className="text-lg font-bold uppercase mb-2">Trek</h3>
                 <p className="text-xs">Planetary Maps 2D/3D</p>
               </Link>
+
+              <Link href="/unsupervised-learning" className="group border-4 border-purple-600 dark:border-purple-500 bg-purple-50 dark:bg-purple-950/20 p-6 transition-all hover:shadow-[6px_6px_0px_0px_rgba(147,51,234,1)] hover:-translate-y-1 hover:-translate-x-1">
+                <div className="text-4xl mb-3">🤖</div>
+                <h3 className="text-lg font-bold uppercase mb-2">AI Learning</h3>
+                <p className="text-xs">K-Means Clustering</p>
+              </Link>
             </div>
           </div>
         </section>

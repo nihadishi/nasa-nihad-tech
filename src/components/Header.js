@@ -25,7 +25,8 @@ export default function Header() {
     { href: "/osdr", label: "OSDR" },
     { href: "/ssc", label: "SSC" },
     { href: "/tle", label: "TLE" },
-    { href: "/trek", label: "Trek" }
+    { href: "/trek", label: "Trek" },
+    { href: "/unsupervised-learning", label: "AI Learning" }
   ];
 
   return (
