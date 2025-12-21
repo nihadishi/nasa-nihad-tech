@@ -22,6 +22,7 @@ export default function Header() {
     // { href: "/mars-rover", label: "Mars Rover" },
     { href: "/nasa-images", label: "Media" },
     { href: "/n2yo", label: "N2YO" },
+    { href: "/opensky", label: "OpenSky" },
     { href: "/osdr", label: "OSDR" },
     { href: "/ssc", label: "SSC" },
     { href: "/tle", label: "TLE" },

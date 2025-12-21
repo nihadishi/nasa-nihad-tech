@@ -40,6 +40,21 @@
   background: rgba(0, 0, 0, 0.9) !important;
 }
 
+.aircraft-marker-icon {
+  background: transparent !important;
+  border: none !important;
+  z-index: 1000 !important;
+}
+
+.aircraft-marker-icon div {
+  z-index: 1000 !important;
+  pointer-events: auto !important;
+}
+
+.leaflet-marker-icon {
+  z-index: 1000 !important;
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;
