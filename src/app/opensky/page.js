@@ -1,19 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-
-const OpenSkyMap = dynamic(() => import('@/components/OpenSkyMap'), {
-  ssr: false,
-  loading: () => (
-    <div className="border-4 border-black dark:border-white bg-white dark:bg-black h-[600px] flex items-center justify-center">
-      <div className="text-center">
-        <div className="inline-block animate-spin h-12 w-12 border-4 border-blue-600 dark:border-blue-500 border-t-transparent mb-4"></div>
-        <p className="font-bold uppercase tracking-wider text-sm">Loading Map...</p>
-      </div>
-    </div>
-  ),
-});
 
 export default function OpenSkyPage() {
   const [aircraftData, setAircraftData] = useState([]);
@@ -61,7 +48,7 @@ export default function OpenSkyPage() {
       if (data.error) {
         // Handle rate limiting specifically
         if (data.error.includes('429') || data.error.includes('Too many requests')) {
-          setError('Rate limit reached. Please wait before refreshing. The map will auto-update in 30 seconds.');
+          setError('Rate limit reached. Please wait before refreshing. Data will auto-update in 30 seconds.');
         } else {
           setError(data.error);
         }
@@ -99,6 +86,7 @@ export default function OpenSkyPage() {
     fetchAircraftData();
     
     // Auto-refresh every 30 seconds (OpenSky API rate limit: ~10 requests per minute)
+    // Reduced to 30s to avoid rate limits while keeping data fresh
     const interval = setInterval(fetchAircraftData, 30000);
     
     return () => clearInterval(interval);
@@ -167,7 +155,7 @@ export default function OpenSkyPage() {
           <div className="border-4 border-black dark:border-white bg-white dark:bg-black p-6 mb-8">
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
               <div className="text-sm font-bold uppercase tracking-wider">
-                Auto-refresh: Every 30 seconds (OpenSky API rate limit)
+                ⚡ Real-time Updates: Auto-refresh every 30 seconds
               </div>
               <button
                 onClick={fetchAircraftData}
@@ -187,19 +175,6 @@ export default function OpenSkyPage() {
               </p>
             </div>
           )}
-
-          {/* Map Visualization - Always render to prevent re-initialization */}
-          <div className="mb-8">
-            <div className="border-4 border-black dark:border-white bg-white dark:bg-black p-4 mb-4">
-              <h2 className="text-xl font-bold uppercase tracking-wider mb-2">
-                🗺️ Live Aircraft Map
-              </h2>
-              <p className="text-sm text-black/70 dark:text-white/70">
-                Click on aircraft markers to view detailed information. Blue icons indicate aircraft in flight, gray icons indicate aircraft on ground.
-              </p>
-            </div>
-            <OpenSkyMap aircraftData={loading ? [] : (aircraftData || [])} />
-          </div>
 
           {/* Loading State */}
           {loading && aircraftData.length === 0 ? (
@@ -232,7 +207,7 @@ export default function OpenSkyPage() {
                       </td>
                     </tr>
                   ) : (
-                    aircraftData.slice(0, 100).map((aircraft, index) => (
+                    aircraftData.map((aircraft, index) => (
                       <tr
                         key={aircraft.icao24 || index}
                         className="border-b-2 border-black dark:border-white hover:bg-black/5 dark:hover:bg-white/5"
@@ -275,12 +250,6 @@ export default function OpenSkyPage() {
                   )}
                 </tbody>
               </table>
-              
-              {aircraftData.length > 100 && (
-                <div className="px-4 py-4 border-t-2 border-black dark:border-white bg-black/5 dark:bg-white/5 text-center text-sm font-bold uppercase tracking-wider">
-                  Showing first 100 of {aircraftData.length} aircraft
-                </div>
-              )}
             </div>
           )}
 
